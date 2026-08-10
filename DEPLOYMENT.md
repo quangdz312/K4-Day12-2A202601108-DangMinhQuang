@@ -1,50 +1,51 @@
 # Thông Tin Deploy — Checkpoint 5
 
-> Điền file này sau khi deploy xong. `pytest tests/test_cp5.py` đọc file này
-> để tìm địa chỉ service của bạn và gọi thử.
+> Đây là bản ghi trạng thái triển khai tại ngày 2026-08-10.
 >
-> **Chỉ ghi TÊN biến môi trường, tuyệt đối không dán giá trị token vào đây.**
-> Repo này công khai — dán token vào là mất token.
+> **Chỉ ghi TÊN biến môi trường, tuyệt đối không dán giá trị token hoặc secret vào đây.**
+> Repo này công khai — dán token vào sẽ làm lộ và mất an toàn token.
 
 ## Thông Tin Học Viên
 
 | Mục | Nội dung |
 |-----|----------|
-| Họ và tên | (điền họ tên) |
-| Mã học viên | (điền mã học viên) |
-| Repo | (điền link repo K4-DAY12-...) |
+| Họ và tên | Dang Minh Quang |
+| Mã học viên | 2A202601108 |
+| Repo | https://github.com/quangdz312/K4-Day12-2A202601108-DangMinhQuang |
 
-## Service
+## Trạng Thái Service
 
 | Mục | Nội dung |
 |-----|----------|
-| Public URL | https://TODO-thay-bang-url-that.up.railway.app |
-| Platform | Railway / Render / Cloud Run — (điền platform bạn dùng) |
-| Ngày deploy | (điền ngày) |
+| Trạng thái | Chưa hoàn tất triển khai cloud |
+| Public URL | Chưa có; không có URL công khai được xác minh |
+| Platform dự kiến hỗ trợ | Railway hoặc Render |
+| Ngày ghi nhận trạng thái | 2026-08-10 |
+| Lý do | Docker, Railway CLI, Render CLI và phiên trình duyệt tương tác hiện không khả dụng |
 
-## Biến Môi Trường Đã Set Trên Cloud
+## Biến Môi Trường Trên Cloud
 
-Ghi tên biến và **nguồn giá trị**, không ghi giá trị:
+Các biến dưới đây **chưa được set trên cloud** vì deployment chưa hoàn tất. Chỉ giữ tên biến và mô tả nguồn dự kiến; không ghi giá trị thực, token hoặc secret.
 
 | Biến | Đã set | Ghi chú |
 |------|--------|---------|
-| `PORT` | ✅ | platform tự gán |
-| `API_TOKEN` | ✅ | đặt trong dashboard, không nằm trong repo |
-| `REDIS_URL` | ✅ | (điền: Redis add-on của platform / Upstash / ...) |
-| `BUCKET_CAPACITY` | ✅ | 10 |
-| `REFILL_PER_MINUTE` | ✅ | 10 |
-| `DAILY_BUDGET_USD` | ✅ | 1.0 |
-| `LOG_LEVEL` | ✅ | INFO |
+| `PORT` | Chưa | Railway/Render dự kiến tự gán |
+| `API_TOKEN` | Chưa | Sẽ đặt bằng secret trong dashboard; không lưu trong repo |
+| `REDIS_URL` | Chưa | Sẽ lấy từ Redis add-on của platform hoặc nhà cung cấp Redis phù hợp |
+| `BUCKET_CAPACITY` | Chưa | Sẽ cấu hình trên cloud |
+| `REFILL_PER_MINUTE` | Chưa | Sẽ cấu hình trên cloud |
+| `DAILY_BUDGET_USD` | Chưa | Sẽ cấu hình trên cloud |
+| `LOG_LEVEL` | Chưa | Sẽ cấu hình trên cloud |
 
-## Lệnh Kiểm Tra
+## Lệnh Kiểm Tra Sau Khi Deploy
 
-Thay `<URL>` bằng Public URL ở trên:
+Các lệnh sau chưa được chạy vì chưa có Public URL. Sau khi triển khai, thay `<URL>` bằng URL đã được xác minh:
 
 ```bash
 # 1. Liveness — mong đợi 200 {"status":"ok"}
 curl -i <URL>/healthz
 
-# 2. Readiness — mong đợi 200 {"status":"ready"} (đã nối được Redis)
+# 2. Readiness — mong đợi 200 {"status":"ready"} khi đã nối được Redis
 curl -i <URL>/readyz
 
 # 3. Không có token — mong đợi 401 kèm header WWW-Authenticate
@@ -71,32 +72,14 @@ done; echo
 
 ## Kết Quả Chạy Thật
 
-Dán output của các lệnh trên vào đây:
-
-```
-(điền output)
-```
+Chưa có output kiểm tra thực tế. Không có command output nào được ghi nhận hoặc giả lập vì deployment chưa hoàn tất.
 
 ## Ảnh Chụp Màn Hình
 
-Đặt ảnh trong thư mục `screenshots/`:
+Chưa có ảnh chụp dashboard hoặc kết quả endpoint. Không có screenshot nào được ghi nhận hoặc giả lập vì chưa có deployment cloud và phiên trình duyệt tương tác không khả dụng.
 
-- `screenshots/dashboard.png` — trang quản lý service trên platform
-- `screenshots/healthz.png` — kết quả gọi `/healthz` từ trình duyệt hoặc curl
+## Phương Án Dự Phòng
 
----
+Phương án local bằng Docker hiện cũng chưa được thực hiện vì Docker không khả dụng. Khi môi trường có Docker, có thể đặt `LOCAL_FALLBACK=true` trong `.env`, chạy `docker compose up -d`, kiểm tra `docker compose ps`, rồi chạy `pytest tests/test_cp5.py -v` với `http://localhost:8000`.
 
-## Nếu Dùng Phương Án Dự Phòng
-
-Không đăng ký được tài khoản cloud? Vẫn nộp được bài, nhưng CP5 tối đa 60% điểm:
-
-1. Đặt `LOCAL_FALLBACK=true` trong `.env`
-2. Chạy `docker compose up -d` rồi kiểm tra `docker compose ps`
-3. Chụp màn hình vào `screenshots/`
-4. Chạy `pytest tests/test_cp5.py -v` — bộ test sẽ tự chuyển sang kiểm tra
-   `http://localhost:8000`
-5. Ghi rõ lý do không deploy được vào phần dưới đây:
-
-```
-(điền lý do nếu dùng phương án dự phòng, ngược lại xóa mục này)
-```
+Mọi file `.env`, token, mật khẩu và secret phải được giữ ngoài repo. Nếu một secret từng bị commit hoặc công khai, phải thu hồi và tạo secret mới ngay.
